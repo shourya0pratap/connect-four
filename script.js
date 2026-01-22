@@ -5,10 +5,13 @@ let turns = 0;
 let gameRunning = true;
 
 // Store the state of the board in an array;
-const boardState = new Array(42).fill(null);
+let boardState = Array(6)
+  .fill(null)
+  .map(() => Array(7).fill(null));
 
 const grid = document.getElementById("game-grid");
 const btn = document.getElementById("reset-btn");
+const winner_disp = document.getElementById("winner-display");
 
 for (let i = 0; i < 42; i++) {
   const cell = document.createElement("div");
@@ -17,36 +20,112 @@ for (let i = 0; i < 42; i++) {
   const col = i % 7;
   cell.dataset.row = row;
   cell.dataset.col = col;
-  cell.dataset.index = i;
   grid.appendChild(cell);
 }
 
 grid.addEventListener("click", (e) => {
   const pressedSlot = e.target.closest(".slot");
-  if (!pressedSlot) return;
+  if (!pressedSlot || !gameRunning) return;
   const colClicked = parseInt(pressedSlot.dataset.col);
 
   // Loop from bottom to top to find an empty spot
   for (let row = 5; row >= 0; row--) {
-    const ind = row * 7 + colClicked;
-    if (boardState[ind] === null) {
-      boardState[ind] = playerTeams[currentPlayer];
-      const targetCell = document.querySelector(`.slot[data-index='${ind}']`);
-      targetCell.style.backgroundColor = playerColors[currentPlayer];
+    if (boardState[row][colClicked] === null) {
+      boardState[row][colClicked] = playerTeams[currentPlayer];
+      const targetCell = document.querySelector(
+        `.slot[data-row='${row}'][data-col='${colClicked}']`,
+      );
+      targetCell.style.setProperty(
+        "--piece-color",
+        playerColors[currentPlayer],
+      );
       targetCell.classList.add("falling");
+      setTimeout(() => {
+        let result = checkWin(row, colClicked);
+        if (result) {
+          gameRunning = false;
+          winner_disp.innerHTML = `Team ${result.winner} Wins!`;
+        } else if (turns == 42) {
+          gameRunning = false;
+          winner_disp.innerHTML = "Tie!";
+        }
+      }, 10);
       currentPlayer = (currentPlayer + 1) % 2;
+      turns += 1;
       break;
     }
   }
 });
 
+function checkWin(row, col) {
+  const currentTeam = boardState[row][col];
+  const directions = [
+    [0, 1], // Horizontal
+    [1, 0], // Vertical
+    [1, 1], // Diagonal Down-Right
+    [1, -1], // Diagonal Down-Left
+  ];
+
+  for (const [dirRow, dirCol] of directions) {
+    let pieceCount = 1;
+
+    // 1. Scan Positive Direction
+    for (let i = 1; i < 4; i++) {
+      const r = row + dirRow * i;
+      const c = col + dirCol * i;
+
+      if (
+        inRange(r, 0, 5) &&
+        inRange(c, 0, 6) &&
+        boardState[r][c] === currentTeam
+      ) {
+        pieceCount++;
+      } else {
+        break;
+      }
+    }
+
+    // 2. Scan Negative Direction
+    for (let i = 1; i < 4; i++) {
+      const r = row - dirRow * i;
+      const c = col - dirCol * i;
+
+      if (
+        inRange(r, 0, 5) &&
+        inRange(c, 0, 6) &&
+        boardState[r][c] === currentTeam
+      ) {
+        pieceCount++;
+      } else {
+        break;
+      }
+    }
+
+    if (pieceCount >= 4) {
+      return { winner: currentTeam.toUpperCase(), type: [dirRow, dirCol] };
+    }
+  }
+
+  return null;
+}
+
+function inRange(x, min, max) {
+  return min <= x && x <= max;
+}
+
 function resetGame() {
-  boardState.fill(null);
+  boardState = Array(6)
+    .fill(null)
+    .map(() => Array(7).fill(null));
   const allSlots = document.querySelectorAll(".slot");
   allSlots.forEach((slot) => {
-    slot.style.backgroundColor = ""; // Remove color
-    slot.classList.remove("falling"); // Remove class so it can play again later
+    slot.style.removeProperty("--piece-color");
+    slot.classList.remove("falling");
   });
+  winner_disp.innerHTML = "Winner:";
+  gameRunning = true;
+  currentPlayer = 0;
+  turns = 0;
 }
 
 btn.addEventListener("mouseenter", () => {
