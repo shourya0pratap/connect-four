@@ -80,7 +80,7 @@ animation: realistic-drop 0.6s forwards;
 1. Clone the repository:
 
 ```bash
-git clone [https://github.com/your-username/connect-4.git](https://github.com/your-username/connect-4.git)
+git clone [https://github.com/shourya0pratap/connect-4.git](https://github.com/shourya0pratap/connect-4.git)
 ```
 
 2. Open the project: Navigate to the folder and double-click index.html to open it in your browser.
