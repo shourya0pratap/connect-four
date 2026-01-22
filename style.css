@@ -1,5 +1,39 @@
+/* Universal Styles*/
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+}
+
+/* Styling for Main Grid containing all the Slots */
+#game-grid {
+  position: relative;
+  justify-self: center;
+  top: 10vh;
+  display: grid;
+  /*
+    Defining the grid with 7 columns and 6 rows
+    */
+  grid-template-columns: repeat(7, 1fr);
+  grid-template-rows: repeat(6, 1fr);
+  /*
+    Defining the width and height
+    700px width allots 100px to each column
+    600px height allots 100px to each row
+    */
+  width: 700px;
+  height: 600px;
+  background-color: dodgerblue;
+  padding: 10px;
+  border-radius: 10px;
+  justify-items: center;
+  align-items: center;
+}
+
+/* Styling for Individual Slots */
+.slot {
+  width: 80px;
+  height: 80px;
+  background-color: white;
+  border-radius: 50%;
 }
