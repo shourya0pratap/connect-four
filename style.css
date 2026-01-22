@@ -40,6 +40,26 @@
   border-radius: 50%;
 }
 
+.falling {
+  animation: drop-bounce 0.5s ease-in; /* ease-in starts slow, hits hard */
+}
+
+@keyframes drop-bounce {
+  0% {
+    transform: translateY(-500px); /* Start way above the board */
+    opacity: 0;
+  }
+  60% {
+    transform: translateY(0); /* Hit the bottom */
+  }
+  75% {
+    transform: translateY(-20px); /* Bounce up slightly */
+  }
+  100% {
+    transform: translateY(0); /* Settle */
+  }
+}
+
 #winner-display {
   font-size: 0.75rem;
   position: relative;
