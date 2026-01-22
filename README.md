@@ -4,7 +4,7 @@ A fully functional, physics-based Connect 4 game built with Vanilla JavaScript. 
 
 ## 🔗 Live Demo
 
-[**Play the Game Here**](https://shourya0pratap.github.io/connect-4/)
+[**Play the Game Here**](https://shourya0pratap.github.io/connect-four/)
 
 ---
 
