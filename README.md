@@ -85,10 +85,7 @@ git clone [https://github.com/shourya0pratap/connect-4.git](https://github.com/s
 
 2. Open the project: Navigate to the folder and double-click index.html to open it in your browser.
 
-
 # 🔮 Future Improvements
-* [] Sound Effects: Add a "clack" sound when pieces hit the bottom.
-
-* [] AI Opponent: Implement a Minimax algorithm for single-player mode.
-
-* [] Score Tracking: Keep a tally of Red vs. Yellow wins across sessions.
+* [ ] Sound Effects: Add a "clack" sound when pieces hit the bottom.
+* [ ] AI Opponent: Implement a Minimax algorithm for single-player mode.
+* [ ] Score Tracking: Keep a tally of Red vs. Yellow wins across sessions.
